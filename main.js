@@ -31,14 +31,13 @@ app.whenReady().then(() => {
     const primaryDisplay = screen.getPrimaryDisplay();
     const resolution = primaryDisplay.workAreaSize;
 
-    deviceWidth = resolution['width'];
-    deviceHeight = resolution['height'];
+    deviceWidth = resolution["width"];
+    deviceHeight = resolution["height"];
 
     let windowWidth = parseInt(deviceWidth * 0.65);
     let windowHeight = parseInt(deviceHeight * 0.65);
 
-
-    createWindow(windowWidth,windowHeight);
+    createWindow(windowWidth, windowHeight);
 
     app.on("activate", () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -89,4 +88,23 @@ ipcMain.on("steamAccount", async (event, info) => {
     const data = await startPythonProcess(info);
 
     mainWindow.webContents.send("steamData-response", data);
+});
+
+ipcMain.on("customThemeWindow", async (event, info) => {
+    let windowWidth = parseInt(deviceWidth * 0.35);
+    let windowHeight = parseInt(deviceHeight * 0.50);
+
+    customThemeWindow = await new BrowserWindow({
+        width: windowWidth,
+        height: windowHeight,
+        modal: true,
+        parent: mainWindow,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: false,
+            preload: path.join(__dirname, "preload.js"),
+        },
+    });
+
+    customThemeWindow.loadFile("./html/customTheme.html");
 });

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" id="body">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Theme</title>
+
+    <link rel="stylesheet" href="style.css">
+
+
+
+    <style>
+        body {
+            background-color: var(--background);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            height: 100vh;
+
+        }
+
+        .parent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+
+            border: 1px solid yellow;
+        }
+
+
+        .colourInput {
+            background-color: transparent;
+            outline: none;
+            border: none;
+        }
+
+        td {
+            padding: 1em;
+        }
+
+        button {
+            background-color: var(--buttonBackground);
+            padding: 0.8em;
+            color: var(--foreground);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            filter: brightness(95%);
+        }
+
+        button:hover {
+            filter: brightness(100%);
+        }
+
+        button:active {
+            filter: brightness(80%);
+        }
+    </style>
+
+
+    <script>
+        function save() {
+            let background = document.getElementById('background').value;
+            let foreground = document.getElementById('foreground').value;
+            let leftSide = document.getElementById('leftSide').value;
+            let button = document.getElementById('button').value;
+            let scrollbarBackground = document.getElementById('scrollbarBackground');
+            let scrollbarThumb = document.getElementById('scrollbarThumb');
+            let scrollbarThumbActive = document.getElementById('scrollbarThumbActive');
+
+            localStorage.setItem("customTheme", JSON.stringify({
+                "background": background,
+                "foreground": foreground,
+                "leftSide": leftSide,
+                "buttonBackground": button,
+                "scrollbarBackground": scrollbarBackground,
+                "scrollbarThumb": scrollbarThumb,
+                "scrollbarThumbActive": scrollbarThumbActive,
+            }));
+
+            let root = document.documentElement;
+            let colours = JSON.parse(localStorage.getItem("customTheme"));
+
+            root.style.setProperty('--background', colours['background']);
+            root.style.setProperty('--foreground', colours['foreground']);
+            root.style.setProperty('--leftSide', colours['leftSide']);
+            root.style.setProperty('--buttonBackground', colours['buttonBackground']);
+            root.style.setProperty('--scrollbarBackground', colours['scrollbarBackground']);
+            root.style.setProperty('--scrollbarThumb', colours['scrollbarThumb']);
+            root.style.setProperty('--scrollbarThumbActive', colours['scrollbarThumbActive']);
+
+            window.alert("You have to restart the app for the changes to take effect")
+        }
+
+        function reset() {
+            localStorage.removeItem("customTheme");
+            window.alert("You have to restart the app for the changes to take effect");
+
+        }
+    </script>
+</head>
+
+<body id="body">
+    <table>
+        <tr>
+            <td> Pick a background colour </td>
+            <td> <input class="colourInput" type="color" name="" id="background"> </td>
+        </tr>
+        <tr>
+            <td> Pick a foreground (font) colour </td>
+            <td> <input class="colourInput" type="color" name="" id="foreground"> </td>
+        </tr>
+        <tr>
+            <td> Pick a colour for the left panel </td>
+            <td> <input class="colourInput" type="color" name="" id="leftSide"> </td>
+        </tr>
+
+        <tr>
+            <td> Pick a button colour </td>
+            <td> <input class="colourInput" type="color" name="" id="button"> </td>
+        </tr>
+
+        <tr>
+            <td> Pick a scrollbar background colour </td>
+            <td> <input class="colourInput" type="color" name="" id="scrollbarBackground"> </td>
+        </tr>
+
+        <tr>
+            <td> Pick a scrollbar button colour </td>
+            <td> <input class="colourInput" type="color" name="" id="scrollbarThumb"> </td>
+        </tr>
+
+        <tr>
+            <td> Pick a scrollbar button active colour (usually a little brighter than button colour) </td>
+            <td> <input class="colourInput" type="color" name="" id="scrollbarThumbActive"> </td>
+        </tr>
+
+    </table>
+
+    <button onclick="save()"> Save </button>
+    <button onclick="reset()"> Reset </button>
+
+</body>
+
+
+<script defer>
+    // Get the value of the CSS :root variable --background and set it to an input field
+    let theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+        document.body.className = "";
+    }
+    else {
+        document.body.className = "lightMode";
+    }
+
+
+    // let colours = JSON.parse(localStorage.getItem("customTheme"));
+    // if (colours !== null) {
+    //     let root = document.documentElement;
+    //     root.style.setProperty('--background', colours['background']);
+    //     root.style.setProperty('--foreground', colours['foreground']);
+    //     root.style.setProperty('--leftSide', colours['leftSide']);
+    //     root.style.setProperty('--buttonBackground', colours['buttonBackground']);
+    //     root.style.setProperty('--menuBackground', colours['buttonBackground']);
+    // }
+
+
+
+
+
+
+    let root = document.documentElement;
+    let background = getComputedStyle(root).getPropertyValue("--background");
+    document.getElementById("background").value = background;
+
+    let font = getComputedStyle(root).getPropertyValue("--foreground");
+    document.getElementById("font").value = font;
+
+    let secondary = getComputedStyle(root).getPropertyValue("--leftSide");
+    document.getElementById("secondary").value = secondary;
+
+</script>
+
+
+
+
+</html>
