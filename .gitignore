@@ -10,3 +10,7 @@ __pycache__/
 
 # Environment-specific
 backend/.env
+
+rough.js
+rough.py
+test.html
