@@ -1,0 +1,12 @@
+backend/__pycache__/
+node_modules/
+.vscode/
+*.txt
+
+# Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment-specific
+backend/.env

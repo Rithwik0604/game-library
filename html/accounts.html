@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Accounts</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="svgStyle.css">
+
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        main {
+            align-items: center;
+            justify-content: center;
+        }
+
+        aside {
+            resize: none;
+            width: 30%;
+        }
+
+        .searchBar {
+            margin: 3%;
+            padding: 3%;
+        }
+    </style>
+</head>
+
+
+
+<body class="" id="body">
+    <aside id="aside">
+
+
+
+        <!-- <p id="asideWidth">aside width is: </p> -->
+        <div class="launcherButtons">
+
+
+            <button class="gameButton active" id="steam" onclick="gameButtonClick('steam')">
+                <p class="gameButtonText">Steam <img class="launcherIcon" id="steamIcon" src="./assets/steam.svg"
+                        alt="Steam icon"></p>
+            </button>
+            <button class="gameButton" id="epic" onclick="gameButtonClick('epic')">
+                <p class="gameButtonText">Epic Games <img class="launcherIcon" src="./assets/epicGames.svg"
+                        alt="Epic Game Icon"> </p>
+            </button>
+            <button class="gameButton" id="xbox" onclick="gameButtonClick('xbox')">
+                <p class="gameButtonText">Xbox <img class="launcherIcon" src="./assets/xbox.svg" alt="Xbox Icon"></p>
+            </button>
+            <button class="gameButton" id="ea" onclick="gameButtonClick('ea')">
+                <p class="gameButtonText">EA <img class="launcherIcon" src="./assets/ea.svg" alt="EA Icon"></p>
+            </button>
+            <button class="gameButton" id="ubisoft" onclick="gameButtonClick('ubisoft')">
+                <p class="gameButtonText">Ubisoft <img class="launcherIcon" src="./assets/ubisoft.svg"
+                        alt="ubisoft Icon">
+                </p>
+            </button>
+        </div>
+
+    </aside>
+
+
+
+
+    <main>
+
+        <div class="mainPages visible" id="mainsteam">
+            <p id="steamLinked"></p>
+            <form id="steamFormm">
+                <input class="searchBar" type="number" name="steamID" id="steamID" placeholder="Enter your steamID">
+                <p>If you can't find or don't know your steamID: <a
+                        href="https://help.steampowered.com/en/faqs/view/2816-BE67-5B69-0FEC" target="_blank"
+                        rel="noreferrer noopener">How to find my SteamID</a>
+                </p>
+                <!-- <p>Please select your steam library</p> -->
+                <!-- <input class="searchBar" type="text" name="steamFolder" id="steamFolder" placeholder="Eg: C:\Steam"> -->
+                <br>
+
+            </form>
+            <button class="submit" onclick="steamLink()">Submit</button>
+        </div>
+        <div class="mainPages" id="mainepic">This is for Epic games</div>
+        <div class="mainPages" id="mainxbox">This is for Xbox</div>
+        <div class="mainPages" id="mainea">This is for EA</div>
+        <div class="mainPages" id="mainubisoft">This is for Ubisoft</div>
+
+    </main>
+</body>
+
+
+<script defer>
+    // console.log(localStorage.getItem('theme'));
+    let theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+        body.className = "";
+    }
+    else {
+        body.className = "lightMode";
+    }
+</script>
+
+<script>
+    const { ipcRenderer } = window.electron;
+</script>
+
+<!-- Select Game Button -->
+<script>
+    function gameButtonClick(buttonID) {
+        buttons = ["steam", "epic", "xbox", "ea", "ubisoft"];
+        document.getElementById(buttonID).className = "gameButton active";
+        for (let index = 0; index < buttons.length; index++) {
+            if (buttons[index] != buttonID) {
+                document.getElementById(buttons[index]).className = "gameButton";
+                document.getElementById("main" + buttons[index]).className =
+                    "mainPages";
+            }
+        }
+
+        document.getElementById(`main${buttonID}`).className = "mainPages visible";
+    }
+</script>
+
+
+
+<!-- Send Account Info -->
+<script>
+
+    async function steamLink() {
+        const steamIDValue = document.getElementById('steamID').value;
+        localStorage.setItem('accountLinked', "1");
+        localStorage.setItem('steamAccount', "1");
+        localStorage.setItem('steamID', steamIDValue);
+        window.alert('This window will close now. If you need to re-link, just come back here.')
+        ipcRenderer.send('steamAccount', { steamID: steamIDValue});
+
+    }
+
+</script>
+
+
+
+</html>

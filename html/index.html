@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gentlemen's Game Library</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+
+
+</head>
+
+<link rel="stylesheet" href="svgStyle.css">
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="widgets.css">
+
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<body class="" id="body">
+
+    <div id="settingsButton">
+        <img id="settingsIcon" src="./assets/settings.svg" alt="Settings icon" onclick="toggleSettings()">
+        <div id="settingsList" class="settingsList">
+            <ul class="settingsUL">
+                <li class="settingsItem" onclick="linkAccount()">
+                    <span class="material-symbols-outlined">person</span>
+                    <span>Link Accounts</span>
+                </li>
+                <li class="settingsItem" onclick="toggleTheme()">
+                    <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+                    <span>Theme</span>
+                </li>
+                <li class="settingsItem" onclick="">
+                    <span class="material-symbols-outlined" id="themeIcon">info</span>
+                    <span>About</span>
+                </li>
+                <li class="settingsItem" onclick="">
+                    <span class="material-symbols-outlined" id="themeIcon">help</span>
+                    <span>Help</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <aside id="aside">
+
+
+
+        <!-- <p id="asideWidth">aside width is: </p> -->
+        <div class="launcherButtons">
+
+            <button class="gameButton active" id="all" onclick="gameButtonClick('all')">
+                <p class="gameButtonIcon">All <img class="launcherIcon" src="./assets/global.svg"
+                        alt="Globe icon representing all"></p>
+            </button>
+            <button class="gameButton" id="favorite" onclick="gameButtonClick('favorite')">
+                <p class="gameButtonIcon">Favorite <span class="material-symbols-outlined">favorite</span></p>
+            </button>
+            <button class="gameButton" id="steam" onclick="gameButtonClick('steam')">
+                <p class="gameButtonText">Steam <img class="launcherIcon" id="steamIcon" src="./assets/steam.svg"
+                        alt="Steam icon"></p>
+            </button>
+            <button class="gameButton" id="epic" onclick="gameButtonClick('epic')">
+                <p class="gameButtonText">Epic Games <img class="launcherIcon" src="./assets/epicGames.svg"
+                        alt="Epic Game Icon"> </p>
+            </button>
+            <button class="gameButton" id="xbox" onclick="gameButtonClick('xbox')">
+                <p class="gameButtonText">Xbox <img class="launcherIcon" src="./assets/xbox.svg" alt="Xbox Icon"></p>
+            </button>
+            <button class="gameButton" id="ea" onclick="gameButtonClick('ea')">
+                <p class="gameButtonText">EA <img class="launcherIcon" src="./assets/ea.svg" alt="EA Icon"></p>
+            </button>
+            <button class="gameButton" id="ubisoft" onclick="gameButtonClick('ubisoft')">
+                <p class="gameButtonText">Ubisoft <img class="launcherIcon" src="./assets/ubisoft.svg"
+                        alt="ubisoft Icon">
+                </p>
+            </button>
+        </div>
+
+    </aside>
+
+    <main id="main">
+
+        <div class="topBar">
+            <input type="search" name="searchBar" id="searchBar" class="searchBar" placeholder="Search Games">
+            <div class="installedWrapper">
+                <input class="installed" type="checkbox" name="installed" id="installed" value="installed">
+                <label for="installed">Installed</label>
+            </div>
+            <p class="totalGames" id="totalGamesText">Total Games: &nbsp; </p>
+        </div>
+        <hr style="width: 100%; margin-top: 2%; margin-bottom:  2%;">
+
+
+        <div class="mainPages visible" id="mainall">
+            <p id="allPlaceholder">No games. No account linked. To link an account, click on the settings icon at the
+                top left of the
+                window, and "Link Accounts"</p>
+            <div id="allGameWidgetsContainer" class="gameWidgetsContainer"></div>
+        </div>
+
+
+
+        <div class="mainPages" id="mainfavorite">No favourites added. To add a game as favorite, click the star icon on
+            it's widget.</div>
+
+
+
+        <div class="mainPages" id="mainsteam">
+            <p id="steamPlaceholder">No steam account linked. Go to link accounts.</p>
+            <div id="steamGameWidgetsContainer" class="gameWidgetsContainer"></div>
+        </div>
+
+
+        <div class="mainPages" id="mainepic">
+            <p id="epicPlaceholder">No epic account linked. Go to link accounts.</p>
+            <div id="epicGameWidgetsContainer" class="gameWidgetsContainer"></div>
+        </div>
+
+
+        <div class="mainPages" id="mainxbox">
+            <p id="xboxPlaceholder">No xbox account linked. Go to link accounts.</p>
+            <div id="xboxGameWidgetsContainer" class="gameWidgetsContainer"></div>
+        </div>
+
+
+        <div class="mainPages" id="mainea">
+            <p id="eaPlaceholder">No ea account linked. Go to link accounts.</p>
+            <div id="eaGameWidgetsContainer" class="gameWidgetsContainer"></div>
+        </div>
+
+
+        <div class="mainPages" id="mainubisoft">
+            <p id="ubisoftPlaceholder">No ubisoft account linked. Go to link accounts.</p>
+            <div id="ubisoftGameWidgetsContainer" class="gameWidgetsContainer"></div>
+        </div>
+    </main>
+
+</body>
+
+<script src="../scripts/saveData.js"></script>
+<script src="../scripts/gamePage.js"></script>
+<script src="../scripts/gamePageFn.js"></script>
+<script src="../scripts/linkAccounts.js"></script>
+<script src="../scripts/filters.js"></script>
+
+
+
+<!-- LocalStorage -->
+<script defer>
+    const asideStorage = localStorage.getItem('asideWidth');
+    if (asideStorage === null) {
+        // console.info('Reached null IF (not an error)');
+        localStorage.setItem('asideWidth', '20%');
+    }
+
+    const accountStorage = localStorage.getItem('accountLinked');
+    if (accountStorage === null || accountStorage === '0') {
+        localStorage.setItem('accountLinked', '0');
+        localStorage.setItem('steamAccount', '0');
+        localStorage.setItem('epicAccount', '0');
+        localStorage.setItem('xboxAccount', '0');
+        localStorage.setItem('eaAccount', '0');
+        localStorage.setItem('ubisoftAccount', '0');
+        localStorage.setItem('favoriteGames', '0');
+    }
+
+
+</script>
+
+
+<script defer>
+    let firstObservation = true;
+
+    const resizeObserver = new ResizeObserver(entries => {
+
+        // console.log('Width is:', localStorage.getItem('asideWidth'));
+
+        // Skip the first observation (initialization)
+        if (firstObservation) {
+            document.getElementById('aside').style.width = localStorage.getItem('asideWidth');
+            // console.log(document.getElementById('aside').style.width);
+            firstObservation = false;
+            return;
+        }
+
+        // Handle resize event
+        // const newWidth = entries[0].contentRect.width;
+        const newWidth = document.getElementById('aside').style.width;
+        // console.log(`Aside element was resized to ${newWidth}`);
+        // console.error('Aside was resized to', document.getElementById('aside').style.width);
+
+        // Update localStorage with the width as a string
+        // console.log('Storing Width as: ', newWidth);
+        localStorage.setItem('asideWidth', String(newWidth));
+    });
+
+    // Get the width of the 'aside' element
+    const asideElement = document.getElementById('aside');
+    resizeObserver.observe(asideElement);
+</script>
+
+
+<script>
+
+</script>
+
+<script defer src="../scripts/settings.js"></script>
+
+</html>
