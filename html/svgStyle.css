@@ -1,25 +1,10 @@
-:root{
-    --icons: white;
-
-}
-body.lightMode .launcherIcon{
-    /* --icons: black; */
-    filter: invert(0);
-}
-body.lightMode #settingsIcon{
-    filter: invert(0);
-}
-
 .launcherIcon {
     vertical-align: middle;
     margin-left: 5%;
-    filter: invert();
-    fill: var(--icons);
     transform: scale(1.2);
 }
 
 #settingsIcon {
-    filter: invert();
     margin: 0;
 
     border-top-left-radius: 10px;
@@ -27,4 +12,9 @@ body.lightMode #settingsIcon{
 
     padding: 10px;
 
+}
+
+svg{
+    /* stroke: var(--foreground); */
+    /* stroke-width: 2px; */
 }

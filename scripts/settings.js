@@ -1,31 +1,17 @@
-let settingsFlag = true;
-
+let settingsOpen = false;
 function toggleSettings() {
-    // console.log("settings clicked");
-    if (settingsFlag) {
+    if (settingsOpen) {
+        document.getElementById("settingsList").style.display = "none";
+        document.getElementById("settingsIcon").style.backgroundColor =
+            "transparent";
+        settingsOpen = !settingsOpen;
+    } else {
         document.getElementById("settingsList").style.display = "unset";
-        // let color = JSON.parse(localStorage.getItem("customTheme"))['buttonBackground'];
         document.getElementById("settingsIcon").style.backgroundColor =
             "var(--buttonBackground)";
-        document.getElementById("settingsIcon").style.filter = "invert(0)";
-        console.log("set it to active");
-        settingsFlag = false;
-    } else {
-        // console.log(
-        //     String(document.getElementById("settingsList").style.display)
-        // );
-        if (document.getElementById("settingsList").style.display === "none") {
-            document.getElementById("settingsList").style.display = "unset";
-            document.getElementById("settingsIcon").style.backgroundColor =
-                "transparent";
-            document.getElementById("settingsIcon").style.filter = "invert(1)";
-        } else {
-            document.getElementById("settingsList").style.display = "none";
-            document.getElementById("settingsIcon").style.backgroundColor =
-                "transparent";
-                document.getElementById("settingsIcon").style.filter = "invert(1)";
 
-        }
+        ("transparent");
+        settingsOpen = !settingsOpen;
     }
 }
 
@@ -40,6 +26,7 @@ document.body.addEventListener("click", (e) => {
             document.getElementById("settingsList").style.display = "none";
             document.getElementById("settingsIcon").style.backgroundColor =
                 "transparent";
+            settingsOpen = false;
         }
     }
 });
