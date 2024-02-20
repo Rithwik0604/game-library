@@ -63,7 +63,7 @@ app.on("window-all-closed", () => {
 ipcMain.on("accountsPage", async (event, args) => {
     // const resolution = await startPythonProcess({ message: "smallResolution" });
     let windowWidth = parseInt(deviceWidth * 0.4);
-    let windowHeight = parseInt(deviceHeight * 0.35);
+    let windowHeight = parseInt(deviceHeight * 0.4);
 
     accountWindow = await new BrowserWindow({
         width: windowWidth,
@@ -72,27 +72,16 @@ ipcMain.on("accountsPage", async (event, args) => {
         parent: mainWindow,
         webPreferences: {
             nodeIntegration: false,
-            contextIsolation: true,
+            contextIsolation: false,
             preload: path.join(__dirname, "preload.js"),
         },
     });
     accountWindow.loadFile("./html/accounts.html");
 });
 
-ipcMain.on("steamAccount", async (event, info) => {
-    if (accountWindow) {
-        accountWindow.close();
-    }
-
-    info["message"] = "steam";
-    const data = await startPythonProcess(info);
-
-    mainWindow.webContents.send("steamData-response", data);
-});
-
 ipcMain.on("customThemeWindow", async (event, info) => {
     let windowWidth = parseInt(deviceWidth * 0.35);
-    let windowHeight = parseInt(deviceHeight * 0.50);
+    let windowHeight = parseInt(deviceHeight * 0.5);
 
     customThemeWindow = await new BrowserWindow({
         width: windowWidth,
@@ -107,4 +96,15 @@ ipcMain.on("customThemeWindow", async (event, info) => {
     });
 
     customThemeWindow.loadFile("./html/customTheme.html");
+});
+
+ipcMain.on("steamAccount", async (event, info) => {
+    if (accountWindow && !accountWindow.isDestroyed()) {
+        accountWindow.close();
+    }
+
+    info["message"] = "steam";
+    const data = await startPythonProcess(info);
+
+    mainWindow.webContents.send("steamData-response", data);
 });

@@ -1,0 +1,99 @@
+/* :root {
+    --scrollbarBackground: #172227;
+    --scrollbarThumb: #808080;
+    --scrollbarThumbActive: #d0d0d0;
+
+    --background: #222c32;
+    --menuBackground: #384953;
+    --foreground: #ffffff;
+    --leftSide: rgb(25, 33, 36);
+    --leftAsideButtonWidth: 20%;
+    --buttonBackground: #324049;
+}
+
+body.lightMode {
+    --scrollbarBackground: #e7ddd8;
+    --scrollbarThumb: #b7aba3;
+    --scrollbarThumbActive: #9c928b;
+
+    --background: #dcd3cd;
+    --menuBackground: #c5b6ac;
+    --foreground: #000000;
+    --leftSide: #e5dedb;
+    --leftAsideButtonWidth: 20%;
+    --buttonBackground: #ccbfb6;
+} */
+
+::-webkit-scrollbar {
+    background-color: var(--scrollbarBackground);
+    /* border-radius: 10px; */
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbarThumb);
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbarThumbActive);
+}
+
+body {
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 100vh;
+    color: var(--foreground);
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+
+    border: 1px solid yellow;
+}
+
+.colourInput {
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+td {
+    padding: 1em;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* border: 1px solid yellow; */
+}
+
+button {
+    background-color: var(--buttonBackground);
+    padding: 0.8em;
+
+    width: max-content;
+    color: var(--foreground);
+
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    filter: brightness(95%);
+
+    margin-bottom: 1rem;
+}
+
+button:hover {
+    filter: brightness(100%);
+}
+
+button:active {
+    filter: brightness(80%);
+}
