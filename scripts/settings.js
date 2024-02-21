@@ -65,7 +65,7 @@ function toggleTheme() {
 }
 
 on("changeMainPageTheme", (event) => {
-    console.log("got signal change main page theme")
+    console.log("got signal change main page theme");
     let customTheme = localStorage.getItem("customTheme");
 
     if (customTheme !== null) {

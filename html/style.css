@@ -3,14 +3,12 @@
     --scrollbarThumb: #808080;
     --scrollbarThumbActive: #d0d0d0;
 
-
     --background: #222c32;
     --menuBackground: #384953;
     --foreground: #ffffff;
     --leftSide: rgb(25, 33, 36);
     --leftAsideButtonWidth: 20%;
     --buttonBackground: #324049;
-
 }
 
 body.lightMode {
@@ -18,21 +16,18 @@ body.lightMode {
     --scrollbarThumb: #b7aba3;
     --scrollbarThumbActive: #9c928b;
 
-
     --background: #dcd3cd;
     --menuBackground: #c5b6ac;
     --foreground: #000000;
     --leftSide: #e5dedb;
     --leftAsideButtonWidth: 20%;
     --buttonBackground: #ccbfb6;
-
 }
 
 body {
     background-color: var(--background);
     color: var(--foreground);
 }
-
 
 ::-webkit-scrollbar {
     background-color: var(--scrollbarBackground);
@@ -48,9 +43,7 @@ body {
     background-color: var(--scrollbarThumbActive);
 }
 
-
 html {
-
     overflow: hidden;
 }
 
@@ -296,18 +289,34 @@ main {
 
 .topBar {
     display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    background-color: var(--background);
+    z-index: 10;
+
+    position: sticky;
+    top: 0;
+    /* height: 7em; */
+    width: 100%;
+
+    margin-top: 3%;
+
+}
+
+.top-bar-container{
+
+    display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 
-    /* border: 1px solid purple; */
-
-    height: max-content;
-
-    margin-top: 3%;
-
     width: 100%;
+
 }
+
+
 
 .searchBar {
     outline: none;
@@ -319,7 +328,7 @@ main {
     border: 1px solid var(--foreground);
     border-radius: 10px;
 
-    padding: 0.5%;
+    padding: 0.5rem;
 
     filter: brightness(90%);
 }
@@ -338,8 +347,7 @@ main {
     accent-color: white;
 }
 
-
-.submit{
+.submit {
     outline: none;
 
     background-color: var(--buttonBackground);
@@ -351,10 +359,62 @@ main {
 
     cursor: pointer;
 
-
     padding: 2%;
 }
 
 .submit:active {
     background-color: var(--background);
+}
+
+.loader-container {
+    position: absolute;
+    top: 40%;
+    left: 51%;
+    /* transform: translate(-50%, 50%); */
+
+    z-index: 10;
+
+    width: 5rem;
+    height: 5rem;
+
+    border-radius: 50%;
+    border: 8px solid var(--foreground);
+    border-top: 0;
+
+    padding: 1em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    animation: rotation 1s linear infinite;
+}
+
+.loader {
+    border: 5px solid var(--scrollbarThumbActive);
+    border-bottom: 0;
+
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+
+    animation: loader 500ms linear infinite;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes loader {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

@@ -9,11 +9,6 @@
     <script src="../scripts/customTheme.js"></script>
 
 
-    <script src="../scripts/saveData.js"></script>
-    <script src="../scripts/gamePage.js"></script>
-    <script src="../scripts/gamePageFn.js"></script>
-    <script src="../scripts/linkAccounts.js"></script>
-    <script src="../scripts/filters.js"></script>
 
 </head>
 
@@ -162,20 +157,27 @@
     <main id="main">
 
         <div class="topBar">
-            <input type="search" name="searchBar" id="searchBar" class="searchBar" placeholder="Search Games">
-            <div class="installedWrapper">
-                <input class="installed" type="checkbox" name="installed" id="installed" value="installed">
-                <label for="installed">Installed</label>
+            <div class="top-bar-container">
+                <input type="search" name="searchBar" id="searchBar" class="searchBar" placeholder="Search Games">
+                <div class="installedWrapper">
+                    <input class="installed" type="checkbox" name="installed" id="installed" value="installed">
+                    <label for="installed">Installed</label>
+                </div>
+                <p class="totalGames" id="totalGamesText">Total Games: &nbsp; </p>
             </div>
-            <p class="totalGames" id="totalGamesText">Total Games: &nbsp; </p>
+            <hr style="width: 100%; margin-top: 2%; margin-bottom:  2%;">
         </div>
-        <hr style="width: 100%; margin-top: 2%; margin-bottom:  2%;">
 
 
         <div class="mainPages visible" id="mainall">
             <p id="allPlaceholder">No games. No account linked. To link an account, click on the settings icon at the
                 top left of the
                 window, and "Link Accounts"</p>
+
+            <div id="loader-container" class="loader-container">
+                <div class="loader"></div>
+            </div>
+
             <div id="allGameWidgetsContainer" class="gameWidgetsContainer"></div>
         </div>
 
@@ -275,7 +277,11 @@
     const asideElement = document.getElementById('aside');
     resizeObserver.observe(asideElement);
 </script>
-
+<script src="../scripts/saveData.js"></script>
+<script src="../scripts/gamePage.js"></script>
+<script src="../scripts/gamePageFn.js"></script>
+<script src="../scripts/linkAccounts.js"></script>
+<script src="../scripts/filters.js"></script>
 <script defer src="../scripts/settings.js"></script>
 
 </html>

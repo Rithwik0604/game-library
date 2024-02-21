@@ -26,6 +26,7 @@ on("steamData-response", (event, data) => {
     removePlaceHolders();
     allGames["steam"] = data['games'];
     localStorage.setItem("steamFolder",data['steamFolder'])
+    document.getElementById("loader-container").remove()
     loadGames();
 });
 
