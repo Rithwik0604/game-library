@@ -60,8 +60,9 @@ app.on("window-all-closed", () => {
     }
 });
 
-ipcMain.on("accountsPage", async (event, args) => {
+ipcMain.handle("accountsPage", async (event, args) => {
     // const resolution = await startPythonProcess({ message: "smallResolution" });
+    console.log("Accounts Page ipc");
     let windowWidth = parseInt(deviceWidth * 0.4);
     let windowHeight = parseInt(deviceHeight * 0.4);
 
@@ -72,14 +73,14 @@ ipcMain.on("accountsPage", async (event, args) => {
         parent: mainWindow,
         webPreferences: {
             nodeIntegration: false,
-            contextIsolation: false,
-            preload: path.join(__dirname, "preload.js"),
+            contextIsolation: true,
+            preload: path.join(__dirname, "./preload.js"),
         },
     });
     accountWindow.loadFile("./html/accounts.html");
 });
 
-ipcMain.on("customThemeWindow", async (event, info) => {
+ipcMain.handle("customThemeWindow", async (event, info) => {
     let windowWidth = parseInt(deviceWidth * 0.35);
     let windowHeight = parseInt(deviceHeight * 0.5);
 
@@ -91,20 +92,27 @@ ipcMain.on("customThemeWindow", async (event, info) => {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: false,
-            preload: path.join(__dirname, "preload.js"),
+            preload: path.join(__dirname, "./preload.js"),
         },
     });
 
     customThemeWindow.loadFile("./html/customTheme.html");
 });
 
-ipcMain.on("steamAccount", async (event, info) => {
+ipcMain.handle("test", (event, args) => {
+    console.log("Test working!");
+    console.log(args);
+    // mainWindow.webContents.send("test back", { say: "this" });
+});
+
+ipcMain.handle("steamAccount", async (event, args) => {
+    console.log("Reached SteamAccount ipc");
     if (accountWindow && !accountWindow.isDestroyed()) {
         accountWindow.close();
     }
 
-    info["message"] = "steam";
-    const data = await startPythonProcess(info);
+    args["message"] = "steam";
+    const data = await startPythonProcess(args);
 
     mainWindow.webContents.send("steamData-response", data);
 });

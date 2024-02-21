@@ -321,12 +321,12 @@ main {
 
     padding: 0.5%;
 
-    filter: brightness(80%);
+    filter: brightness(90%);
 }
 
 .searchBar:focus {
     /* background-color: var(--buttonBackground); */
-    filter: brightness(100%);
+    filter: brightness(80%);
 }
 
 .searchBar::placeholder {

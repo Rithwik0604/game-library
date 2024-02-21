@@ -11,6 +11,10 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
+
+    <script src="../scripts/accounts.js"></script>
+
+
 </head>
 
 
@@ -41,8 +45,8 @@
                         height="16">
                         <style>
                             .st0 {
-                                fill: var(--foreground);
-                                filter: invert(1);
+                                fill: var(--leftSide);
+
                             }
 
                             .st1 {
@@ -126,7 +130,7 @@
 </body>
 
 
-<script defer>
+<!-- <script defer>
     // console.log(localStorage.getItem('theme'));
     let theme = localStorage.getItem('theme');
     if (theme === 'dark') {
@@ -153,49 +157,7 @@
         root.style.setProperty('--scrollbarThumbActive', colours['scrollbarThumbActive']);
     }
 
-</script>
-
-<script>
-    const { ipcRenderer } = window.electron;
-</script>
-
-<!-- Select Game Button -->
-<script>
-    function gameButtonClick(buttonID) {
-        buttons = ["steam", "epic", "xbox", "ea", "ubisoft"];
-        document.getElementById(buttonID).className = "gameButton active";
-        for (let index = 0; index < buttons.length; index++) {
-            if (buttons[index] != buttonID) {
-                document.getElementById(buttons[index]).className = "gameButton";
-                document.getElementById("main" + buttons[index]).className =
-                    "mainPages";
-            }
-        }
-
-        document.getElementById(`main${buttonID}`).className = "mainPages visible";
-    }
-</script>
-
-
-
-<!-- Send Account Info -->
-<script>
-
-    async function steamLink() {
-        const steamIDValue = document.getElementById('steamID').value;
-        if (steamIDValue === "") {
-            alert("Can't submit blank. If you want to back you, just close the window");
-            return;
-        }
-        localStorage.setItem('accountLinked', "1");
-        localStorage.setItem('steamAccount', "1");
-        localStorage.setItem('steamID', steamIDValue);
-        await window.alert('This window will close now. If you need to re-link, just come back here.')
-        ipcRenderer.send('steamAccount', { steamID: steamIDValue });
-
-    }
-
-</script>
+</script> -->
 
 
 

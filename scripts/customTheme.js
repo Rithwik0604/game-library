@@ -1,10 +1,5 @@
-function ipcSend(request) {
-    const { ipcRenderer } = window.electron;
-    ipcRenderer.send(request);
-}
-
 function openCustomTheme() {
-    ipcSend("customThemeWindow");
+    call("customThemeWindow");
 }
 
 addEventListener("DOMContentLoaded", (e) => {

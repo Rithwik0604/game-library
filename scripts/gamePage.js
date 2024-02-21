@@ -1,7 +1,7 @@
-const { ipcRenderer } = window.electron;
+const { call,on } = window.electronAPI;
 
 function requestData(request, info) {
-    ipcRenderer.send(request, info);
+    call(request, info);
 }
 
 async function loadGames(searching, searchText, installed) {
@@ -22,7 +22,7 @@ async function loadGames(searching, searchText, installed) {
         "Total Games: " + gameCounter;
 }
 
-ipcRenderer.on("steamData-response", (event, data) => {
+on("steamData-response", (event, data) => {
     removePlaceHolders();
     allGames["steam"] = data['games'];
     localStorage.setItem("steamFolder",data['steamFolder'])
