@@ -59,11 +59,10 @@ async function steamLink() {
     localStorage.setItem("accountLinked", "1");
     localStorage.setItem("steamAccount", "1");
     localStorage.setItem("steamID", steamIDValue);
-    await window.alert(
+    window.alert(
         "This window will close now. If you need to re-link, just come back here."
     );
-    // Check if ipcRenderer is available
-
+    // window.electronAPI.call("show-loader");
     window.electronAPI.call("steamAccount", {
         steamID: steamIDValue,
     });

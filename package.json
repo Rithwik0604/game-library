@@ -1,16 +1,33 @@
 {
     "name": "simple-game-library",
+    "productName": "Simple Game Library",
+    "author": "Rithwik Gupta",
     "version": "1.0.0",
     "main": "main.js",
-    "devDependencies": {},
+    "devDependencies": {
+        "electron": "29.0.0",
+        "electron-packager": "^17.1.2"
+    },
     "type": "commonjs",
     "scripts": {
         "start": "electron .",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "main": "echo \"running\""
+        "main": "echo \"running\"",
+        "package": "electron-packager . SimpleLibrary"
     },
     "keywords": [],
-    "author": "",
     "license": "ISC",
-    "description": ""
+    "description": "",
+    "dependencies": {
+        "electron-builder": "^24.12.0",
+        "electron-squirrel-startup": "^1.0.0"
+    },
+    "build": {
+        "appId": "com.Rithwik.SimpleLibrary",
+        "files": [
+            "html/**/*",
+            "scripts/**",
+            "backend/**/*"
+        ]
+    }
 }

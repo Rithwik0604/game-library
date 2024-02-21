@@ -1,12 +1,62 @@
-const { app, BrowserWindow, ipcMain, screen } = require("electron");
+const { app, BrowserWindow, ipcMain, screen, Menu } = require("electron");
 const path = require("path");
 const { startPythonProcess } = require("./scripts/ipc");
+const { send } = require("process");
 
 let mainWindow = BrowserWindow;
 let accountWindow;
 
 let deviceWidth;
 let deviceHeight;
+
+let webPreferences = {
+    contextIsolation: true,
+    preload: path.join(__dirname, "preload.js"),
+    devTools: true,
+};
+
+let menuTemplate = [
+    {
+        label: "Reset",
+        submenu: [
+            { label: "Reset Theme", click: resetTheme },
+            { label: "Reset Accounts", click: resetAccounts },
+            { label: " ☠️ Hard Reset ☠️ ", click: hardReset },
+            { role: "undo", visible: false },
+            { role: "redo", visible: false },
+            { role: "copy", visible: false },
+            { role: "paste", visible: false },
+            { role: "cut", visible: false },
+        ],
+    },
+    {
+        label: "Dev",
+        submenu: [
+            { role: "reload" }, // Standard "Reload" option
+            { role: "forceReload" }, // Standard "Force Reload" option
+            { role: "toggleDevTools" }, // Standard "Toggle Developer Tools" option
+        ],
+    },
+];
+
+function hardReset() {
+    mainWindow.webContents.send("hard-reset");
+}
+
+function resetTheme() {
+    mainWindow.webContents.send("changeMainPageTheme", { reset: true });
+}
+
+ipcMain.handle("restart-reply", (event, args) => {
+    // Once the reply is received, relaunch the app and then quit
+    app.relaunch();
+    app.quit();
+});
+
+function resetAccounts() {
+    // Send the resetAccounts signal to the renderer process
+    mainWindow.webContents.send("resetAccounts");
+}
 
 async function createWindow(width, height) {
     // const reso = await startPythonProcess({ message: "resolution" });
@@ -15,11 +65,7 @@ async function createWindow(width, height) {
         width: width,
         height: height,
         minWidth: 500,
-        webPreferences: {
-            nodeIntegration: false, // Disable Node.js integration
-            contextIsolation: true,
-            preload: path.join(__dirname, "preload.js"),
-        },
+        webPreferences: webPreferences,
     });
 
     // Load the window with additional data if needed
@@ -38,6 +84,8 @@ app.whenReady().then(() => {
     let windowHeight = parseInt(deviceHeight * 0.65);
 
     createWindow(windowWidth, windowHeight);
+    let menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
 
     app.on("activate", () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -45,13 +93,7 @@ app.whenReady().then(() => {
         }
     });
 
-    app.on("ready", (e) => {
-        mainWindow.on("close", (event) => {
-            if (!accountWindow.isDestroyed()) {
-                event.preventDefault();
-            }
-        });
-    });
+    app.on("ready", (e) => {});
 });
 
 app.on("window-all-closed", () => {
@@ -71,11 +113,8 @@ ipcMain.handle("accountsPage", async (event, args) => {
         height: windowHeight,
         modal: true,
         parent: mainWindow,
-        webPreferences: {
-            nodeIntegration: false,
-            contextIsolation: true,
-            preload: path.join(__dirname, "./preload.js"),
-        },
+        autoHideMenuBar: true,
+        webPreferences: webPreferences,
     });
     accountWindow.loadFile("./html/accounts.html");
 });
@@ -89,11 +128,8 @@ ipcMain.handle("customThemeWindow", async (event, info) => {
         height: windowHeight,
         modal: true,
         parent: mainWindow,
-        webPreferences: {
-            nodeIntegration: false,
-            contextIsolation: true,
-            preload: path.join(__dirname, "./preload.js"),
-        },
+        autoHideMenuBar: true,
+        webPreferences: webPreferences,
     });
 
     customThemeWindow.loadFile("./html/customTheme.html");
@@ -101,7 +137,7 @@ ipcMain.handle("customThemeWindow", async (event, info) => {
 
 ipcMain.handle("changeCustomTheme", async (event) => {
     console.log("got signal change theme");
-    mainWindow.webContents.send("changeMainPageTheme");
+    mainWindow.webContents.send("changeMainPageTheme", { reset: false });
 });
 
 ipcMain.handle("test", (event, args) => {
@@ -109,6 +145,10 @@ ipcMain.handle("test", (event, args) => {
     console.log(args);
     // mainWindow.webContents.send("test back", { say: "this" });
 });
+
+// ipcMain.handle("show-loader", () => {
+//     mainWindow.webContents.send("show-loader");
+// });
 
 ipcMain.handle("steamAccount", async (event, args) => {
     console.log("Reached SteamAccount ipc");
@@ -118,6 +158,5 @@ ipcMain.handle("steamAccount", async (event, args) => {
 
     args["message"] = "steam";
     const data = await startPythonProcess(args);
-
     mainWindow.webContents.send("steamData-response", data);
 });

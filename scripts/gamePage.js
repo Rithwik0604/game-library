@@ -1,4 +1,4 @@
-const { call,on } = window.electronAPI;
+const { call, on } = window.electronAPI;
 
 function requestData(request, info) {
     call(request, info);
@@ -22,11 +22,17 @@ async function loadGames(searching, searchText, installed) {
         "Total Games: " + gameCounter;
 }
 
+// on("show-loader", () => {
+//     removePlaceHolders();
+//     document.getElementById("loader-container").style.visibility = "visible";
+// });
+
 on("steamData-response", (event, data) => {
     removePlaceHolders();
-    allGames["steam"] = data['games'];
-    localStorage.setItem("steamFolder",data['steamFolder'])
-    document.getElementById("loader-container").remove()
+    document.getElementById("loader-container").style.visibility = "visible";
+    allGames["steam"] = data["games"];
+    localStorage.setItem("steamFolder", data["steamFolder"]);
+    document.getElementById("loader-container").remove();
     loadGames();
 });
 
@@ -49,7 +55,6 @@ addEventListener("DOMContentLoaded", (e) => {
 });
 
 function gameButtonClick(buttonID) {
-
     document.getElementById("installed").checked = false;
 
     buttons = ["all", "favorite", "steam", "epic", "xbox", "ea", "ubisoft"];

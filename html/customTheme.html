@@ -84,7 +84,25 @@
 
         function reset() {
             localStorage.removeItem("customTheme");
-            window.alert("You have to restart the app for the changes to take effect");
+            window.electronAPI.call("changeCustomTheme");
+            let root = document.documentElement;
+
+            root.style.setProperty("--background", "#222c32");
+            root.style.setProperty("--foreground", "#ffffff");
+            root.style.setProperty("--leftSide", "rgb(25, 33, 36)");
+            root.style.setProperty(
+                "--buttonBackground",
+                "#324049"
+            );
+            root.style.setProperty(
+                "--scrollbarBackground",
+                "#172227"
+            );
+            root.style.setProperty("--scrollbarThumb", "#808080");
+            root.style.setProperty(
+                "--scrollbarThumbActive",
+                "#d0d0d0"
+            );
 
         }
     </script>
