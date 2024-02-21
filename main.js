@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const { startPythonProcess } = require("./scripts/ipc");
 
-let mainWindow;
+let mainWindow = BrowserWindow;
 let accountWindow;
 
 let deviceWidth;
@@ -91,12 +91,17 @@ ipcMain.handle("customThemeWindow", async (event, info) => {
         parent: mainWindow,
         webPreferences: {
             nodeIntegration: false,
-            contextIsolation: false,
+            contextIsolation: true,
             preload: path.join(__dirname, "./preload.js"),
         },
     });
 
     customThemeWindow.loadFile("./html/customTheme.html");
+});
+
+ipcMain.handle("changeCustomTheme", async (event) => {
+    console.log("got signal change theme");
+    mainWindow.webContents.send("changeMainPageTheme");
 });
 
 ipcMain.handle("test", (event, args) => {

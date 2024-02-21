@@ -63,3 +63,30 @@ function toggleTheme() {
         // setTimeout(toggleSettings, 700);
     }
 }
+
+on("changeMainPageTheme", (event) => {
+    console.log("got signal change main page theme")
+    let customTheme = localStorage.getItem("customTheme");
+
+    if (customTheme !== null) {
+        let colours = JSON.parse(customTheme);
+        let root = document.documentElement;
+
+        root.style.setProperty("--background", colours["background"]);
+        root.style.setProperty("--foreground", colours["foreground"]);
+        root.style.setProperty("--leftSide", colours["leftSide"]);
+        root.style.setProperty(
+            "--buttonBackground",
+            colours["buttonBackground"]
+        );
+        root.style.setProperty(
+            "--scrollbarBackground",
+            colours["scrollbarBackground"]
+        );
+        root.style.setProperty("--scrollbarThumb", colours["scrollbarThumb"]);
+        root.style.setProperty(
+            "--scrollbarThumbActive",
+            colours["scrollbarThumbActive"]
+        );
+    }
+});

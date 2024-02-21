@@ -10,6 +10,41 @@
     <link rel="stylesheet" href="./customTheme.css">
 
 
+    <script defer>
+        // Get the value of the CSS :root variable --background and set it to an input field
+        let theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+            document.body.className = "";
+        }
+        else {
+            document.body.className = "lightMode";
+        }
+
+
+        let storageColours = localStorage.getItem("customTheme");
+        if (storageColours !== null) {
+            let colours = JSON.parse(storageColours);
+            let background = document.getElementById('background').value = colours['background'];
+            let foreground = document.getElementById('foreground').value = colours['foreground'];
+            let leftSide = document.getElementById('leftSide').value = colours['leftSide'];
+            let button = document.getElementById('button').value = colours['buttonBackground'];
+            let scrollbarBackground = document.getElementById('scrollbarBackground').value = colours['scrollbarBackground'];
+            let scrollbarThumb = document.getElementById('scrollbarThumb').value = colours['scrollbarThumb'];
+            let scrollbarThumbActive = document.getElementById('scrollbarThumbActive').value = colours['scrollbarThumbActive'];
+
+            let root = document.documentElement;
+
+            root.style.setProperty('--background', colours['background']);
+            root.style.setProperty('--foreground', colours['foreground']);
+            root.style.setProperty('--leftSide', colours['leftSide']);
+            root.style.setProperty('--buttonBackground', colours['buttonBackground']);
+            root.style.setProperty('--scrollbarBackground', colours['scrollbarBackground']);
+            root.style.setProperty('--scrollbarThumb', colours['scrollbarThumb']);
+            root.style.setProperty('--scrollbarThumbActive', colours['scrollbarThumbActive']);
+        }
+
+    </script>
+
 
     <script>
         function save() {
@@ -31,18 +66,20 @@
                 "scrollbarThumbActive": scrollbarThumbActive,
             }));
 
-            // let root = document.documentElement;
-            // let colours = JSON.parse(localStorage.getItem("customTheme"));
+            let root = document.documentElement;
+            let colours = JSON.parse(localStorage.getItem("customTheme"));
 
-            // root.style.setProperty('--background', colours['background']);
-            // root.style.setProperty('--foreground', colours['foreground']);
-            // root.style.setProperty('--leftSide', colours['leftSide']);
-            // root.style.setProperty('--buttonBackground', colours['buttonBackground']);
-            // root.style.setProperty('--scrollbarBackground', colours['scrollbarBackground']);
-            // root.style.setProperty('--scrollbarThumb', colours['scrollbarThumb']);
-            // root.style.setProperty('--scrollbarThumbActive', colours['scrollbarThumbActive']);
+            root.style.setProperty('--background', colours['background']);
+            root.style.setProperty('--foreground', colours['foreground']);
+            root.style.setProperty('--leftSide', colours['leftSide']);
+            root.style.setProperty('--buttonBackground', colours['buttonBackground']);
+            root.style.setProperty('--scrollbarBackground', colours['scrollbarBackground']);
+            root.style.setProperty('--scrollbarThumb', colours['scrollbarThumb']);
+            root.style.setProperty('--scrollbarThumbActive', colours['scrollbarThumbActive']);
 
-            window.alert("You have to restart the app for the changes to take effect")
+
+            window.electronAPI.call("changeCustomTheme");
+
         }
 
         function reset() {
@@ -98,53 +135,7 @@
 </body>
 
 
-<script defer>
-    // Get the value of the CSS :root variable --background and set it to an input field
-    let theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-        document.body.className = "";
-    }
-    else {
-        document.body.className = "lightMode";
-    }
 
-
-    // let colours = JSON.parse(localStorage.getItem("customTheme"));
-    // if (colours !== null) {
-    //     let root = document.documentElement;
-    //     root.style.setProperty('--background', colours['background']);
-    //     root.style.setProperty('--foreground', colours['foreground']);
-    //     root.style.setProperty('--leftSide', colours['leftSide']);
-    //     root.style.setProperty('--buttonBackground', colours['buttonBackground']);
-    //     root.style.setProperty('--menuBackground', colours['buttonBackground']);
-    // }
-
-
-    let storageColours = localStorage.getItem("customTheme");
-    console.log(storageColours)
-    if (storageColours !== null) {
-        let colours = JSON.parse(storageColours);
-        console.log(colours)
-        let background = document.getElementById('background').value = colours['background'];
-        let foreground = document.getElementById('foreground').value = colours['foreground'];
-        let leftSide = document.getElementById('leftSide').value = colours['leftSide'];
-        let button = document.getElementById('button').value = colours['buttonBackground'];
-        let scrollbarBackground = document.getElementById('scrollbarBackground').value = colours['scrollbarBackground'];
-        let scrollbarThumb = document.getElementById('scrollbarThumb').value = colours['scrollbarThumb'];
-        let scrollbarThumbActive = document.getElementById('scrollbarThumbActive').value = colours['scrollbarThumbActive'];
-
-        let root = document.documentElement;
-
-        root.style.setProperty('--background', colours['background']);
-        root.style.setProperty('--foreground', colours['foreground']);
-        root.style.setProperty('--leftSide', colours['leftSide']);
-        root.style.setProperty('--buttonBackground', colours['buttonBackground']);
-        root.style.setProperty('--scrollbarBackground', colours['scrollbarBackground']);
-        root.style.setProperty('--scrollbarThumb', colours['scrollbarThumb']);
-        root.style.setProperty('--scrollbarThumbActive', colours['scrollbarThumbActive']);
-    }
-
-</script>
 
 
 
